@@ -9,7 +9,7 @@ Backend: Spring Boot
 	1.	Add Dependencies:
 Add these to your pom.xml:
 
-<dependency>
+`<dependency>
     <groupId>org.springframework.boot</groupId>
     <artifactId>spring-boot-starter-security</artifactId>
 </dependency>
@@ -17,12 +17,12 @@ Add these to your pom.xml:
     <groupId>io.jsonwebtoken</groupId>
     <artifactId>jjwt</artifactId>
     <version>0.9.1</version>
-</dependency>
+</dependency>`
 
 
 	2.	Create User Entity:
 
-@Entity
+`@Entity
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -31,11 +31,11 @@ public class User {
     private String password;
     private String role; // e.g., ROLE_USER, ROLE_ADMIN
 }
-
+`
 
 	3.	Create JWT Utility:
 
-public class JwtUtil {
+`public class JwtUtil {
     private String secret = "secretKey";
 
     public String generateToken(String username) {
@@ -50,14 +50,14 @@ public class JwtUtil {
     public String extractUsername(String token) {
         return Jwts.parser().setSigningKey(secret).parseClaimsJws(token).getBody().getSubject();
     }
-}
+}`
 
 
 	4.	Authentication Filter:
 Create a JwtRequestFilter to intercept requests and validate tokens.
 	5.	Security Configuration:
 
-@Configuration
+`@Configuration
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
@@ -67,12 +67,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             .antMatchers("/api/auth/**").permitAll()
             .anyRequest().authenticated();
     }
-}
+}`
 
 
 	6.	Auth Controller:
 
-@RestController
+`@RestController
 @RequestMapping("/api/auth")
 public class AuthController {
     @Autowired
@@ -89,13 +89,13 @@ public class AuthController {
         String token = jwtUtil.generateToken(authRequest.getUsername());
         return ResponseEntity.ok(new AuthResponse(token));
     }
-}
+}`
 
 Frontend: React
 
 	1.	Axios Interceptor for JWT:
 
-import axios from "axios";
+`import axios from "axios";
 
 axios.interceptors.request.use((config) => {
     const token = localStorage.getItem("token");
@@ -103,12 +103,12 @@ axios.interceptors.request.use((config) => {
         config.headers.Authorization = `Bearer ${token}`;
     }
     return config;
-});
+});`
 
 
 	2.	Login Component:
 
-import React, { useState } from "react";
+`import React, { useState } from "react";
 import axios from "axios";
 
 const Login = () => {
@@ -129,7 +129,7 @@ const Login = () => {
         </form>
     );
 };
-
+`
 export default Login;
 
 2. Admin Panel for Managing Products and Orders
